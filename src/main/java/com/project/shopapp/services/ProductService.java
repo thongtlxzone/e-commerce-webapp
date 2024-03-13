@@ -14,8 +14,11 @@ import com.project.shopapp.responses.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +28,7 @@ public class ProductService implements IProductService {
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository productImageRepository;
     @Override
+    @Transactional
     public ProductEntity createProduct(ProductDTO productDTO) throws DataNotFoundException {
         CategoryEntity existingCategory = categoryRepository
                 .findById(productDTO.getCategoryId())
@@ -48,12 +52,20 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
-        //Lấy danh sách sản phẩm theo trang(page) và giới hạn(limit)
-        return productRepository.findAll(pageRequest).map(ProductResponse::fromProduct);
+    public List<ProductEntity> findProductsByIds(List<Long> productIds) {
+        return productRepository.findProductsByIds(productIds);
     }
 
     @Override
+    public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, PageRequest pageRequest) {
+        //Lấy danh sách sản phẩm theo trang(page) và giới hạn(limit)
+        Page<ProductEntity> productsPage;
+        productsPage = productRepository.searchProducts(categoryId,keyword,pageRequest);
+        return productsPage.map(ProductResponse::fromProduct);
+    }
+
+    @Override
+    @Transactional
     public ProductEntity updateProduct(
             long id,
             ProductDTO productDTO
@@ -78,6 +90,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(long id) {
         Optional<ProductEntity> optionalProduct = productRepository.findById(id);
         optionalProduct.ifPresent(productRepository::delete);
@@ -89,6 +102,7 @@ public class ProductService implements IProductService {
     }
     //ProductImageService
     @Override
+    @Transactional
     public ProductImageEntity createProductImage(long productId, ProductImageDTO productImageDTO) throws Exception {
         ProductEntity existingProduct = productRepository
                 .findById(productId)

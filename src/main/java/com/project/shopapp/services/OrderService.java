@@ -1,17 +1,21 @@
 package com.project.shopapp.services;
 
+import com.project.shopapp.dtos.CartItemDTO;
 import com.project.shopapp.dtos.OrderDTO;
+import com.project.shopapp.dtos.OrderDetailDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
-import com.project.shopapp.models.OrderEntity;
-import com.project.shopapp.models.OrderStatusEntity;
-import com.project.shopapp.models.UserEntity;
+import com.project.shopapp.models.*;
+import com.project.shopapp.repositories.OrderDetailRepository;
 import com.project.shopapp.repositories.OrderRepository;
+import com.project.shopapp.repositories.ProductRepository;
 import com.project.shopapp.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +25,12 @@ import java.util.Optional;
 public class OrderService implements IOrderService{
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public OrderEntity createOrder(OrderDTO orderDTO) throws Exception {
         //Tìm xem userId có tồn tại không
         UserEntity user = userRepository
@@ -39,6 +46,7 @@ public class OrderService implements IOrderService{
         modelMapper.map(orderDTO, order);
         order.setUser(user);
         order.setOrderDate(new Date());
+        order.setTotalMoney(orderDTO.getTotalMoney());
         order.setStatus(OrderStatusEntity.PENDING);
         //Kiểm tra shipping date phải >= ngày hnay
         LocalDate shippingDate = orderDTO.getShippingDate() == null ? LocalDate.now(): orderDTO.getShippingDate();
@@ -48,7 +56,23 @@ public class OrderService implements IOrderService{
         order.setShippingDate(shippingDate);
         order.setActive(true);
         orderRepository.save(order);
-       return order;
+        List<OrderDetailEntity> orderDetails = new ArrayList<>();
+        for(CartItemDTO cartItem : orderDTO.getCartItems()){
+            OrderDetailEntity orderDetail = new OrderDetailEntity();
+            orderDetail.setOrder(order);
+
+            Long productId = cartItem.getProductId();
+            int quantity = cartItem.getQuantity();
+
+            ProductEntity product = productRepository.findById(productId)
+                    .orElseThrow(() -> new DataNotFoundException("Product not found with id: " + productId));
+            orderDetail.setProduct(product);
+            orderDetail.setNumberOfProducts(quantity);
+            orderDetail.setPrice(product.getPrice());
+            orderDetails.add(orderDetail);
+        }
+        orderDetailRepository.saveAll(orderDetails);
+        return order;
     }
 
     @Override
@@ -62,6 +86,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    @Transactional
     public OrderEntity updateOrder(long id, OrderDTO orderDTO) throws DataNotFoundException {
         OrderEntity order = orderRepository.findById(id).orElseThrow(() ->
                     new DataNotFoundException("Cannot found order with id: "+ id));
@@ -75,6 +100,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    @Transactional
     public void deleteOrder(long id) {
         OrderEntity order = orderRepository.findById(id).orElse(null);
         //Xoa cung

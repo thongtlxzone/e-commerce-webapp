@@ -57,7 +57,11 @@ public class WebSecurityConfig {
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/products**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET,
-                                    String.format("%s/products/images**", apiPrefix)).permitAll()
+                                    String.format("%s/products/*", apiPrefix)).permitAll()
+//                            .requestMatchers(HttpMethod.GET,
+//                                    String.format("%s/products/by-ids", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    String.format("%s/products/images/*", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST,
                                     String.format("%s/products/uploads**", apiPrefix)).hasRole(RoleEntity.ADMIN)
                             .requestMatchers(HttpMethod.POST,

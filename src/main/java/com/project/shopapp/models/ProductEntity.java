@@ -1,9 +1,12 @@
 package com.project.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "products")
 @Getter
@@ -40,4 +43,7 @@ public class ProductEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductImageEntity> productImages;
 }

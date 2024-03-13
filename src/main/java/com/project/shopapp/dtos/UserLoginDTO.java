@@ -16,7 +16,6 @@ public class UserLoginDTO {
     private String phoneNumber;
     @NotBlank(message = "Password cannot be blank")
     private String password;
-//    @JsonProperty("role_id")
-//    @NotBlank
-//    private Long roleId;
+    @JsonProperty("role_id")
+    private Long roleId;
 }

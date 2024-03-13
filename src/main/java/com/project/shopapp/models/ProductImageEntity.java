@@ -1,5 +1,6 @@
 package com.project.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,5 +19,6 @@ public class ProductImageEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
     @Column(name = "image_url", length = 255)
+    @JsonProperty("image_url")
     private String imageUrl;
 }
