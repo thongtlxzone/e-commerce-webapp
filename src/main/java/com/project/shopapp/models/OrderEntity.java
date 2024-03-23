@@ -1,11 +1,14 @@
 package com.project.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity(name = "orders")
 @Getter
@@ -31,7 +34,7 @@ public class OrderEntity {
     @Column(name = "note", length = 100)
     private String note;
     @Column(name = "order_date")
-    private Date orderDate;
+    private LocalDate orderDate;
     @Column(name = "status")
     private String status;
     @Column(name = "total_money")
@@ -48,4 +51,7 @@ public class OrderEntity {
     private String paymentMethod;
     @Column(name = "active")
     private boolean active; // thuộc về admin
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<OrderDetailEntity> orderDetails;
 }

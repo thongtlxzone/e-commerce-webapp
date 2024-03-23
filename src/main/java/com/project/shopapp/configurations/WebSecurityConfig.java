@@ -72,7 +72,7 @@ public class WebSecurityConfig {
                                     String.format("%s/products/**", apiPrefix)).hasRole(RoleEntity.ADMIN)
 
                             .requestMatchers(HttpMethod.POST,
-                                    String.format("%s/orders/**", apiPrefix)).hasRole(RoleEntity.USER)
+                                    String.format("%s/orders/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET,
                                     String.format("%s/orders/**", apiPrefix)).hasAnyRole(RoleEntity.USER,RoleEntity.ADMIN)
                             .requestMatchers(HttpMethod.PUT,

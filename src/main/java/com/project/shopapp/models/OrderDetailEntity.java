@@ -1,5 +1,6 @@
 package com.project.shopapp.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.shopapp.responses.OrderDetailResponse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,6 +17,7 @@ public class OrderDetailEntity {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonManagedReference
     private OrderEntity order;
     @ManyToOne
     @JoinColumn(name = "product_id")
