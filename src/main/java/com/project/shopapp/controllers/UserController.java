@@ -2,7 +2,9 @@ package com.project.shopapp.controllers;
 
 import com.project.shopapp.dtos.UserDTO;
 import com.project.shopapp.dtos.UserLoginDTO;
+import com.project.shopapp.models.UserEntity;
 import com.project.shopapp.responses.LoginResponse;
+import com.project.shopapp.responses.UserResponse;
 import com.project.shopapp.services.IUserService;
 import com.project.shopapp.components.LocalizationUtils;
 import com.project.shopapp.utils.MessageKeys;
@@ -59,6 +61,16 @@ public class UserController {
                             .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
                             .build()
             );
+        }
+    }
+    @PostMapping("/details")
+    public ResponseEntity<?> getUserDetails(@RequestHeader("Authorization") String token){
+        try{
+            String extractedToken = token.substring(7);
+            UserEntity user = userService.getUserDetailsFromToken(extractedToken);
+            return ResponseEntity.ok(UserResponse.fromUser(user));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
     }
 }

@@ -28,8 +28,9 @@ public class JwtTokenUtils {
     public String generateToken(UserEntity user) throws InvalidParamExeption {
         //properties => claims
         Map<String, Object> claims = new HashMap<>();
-//        this.generateSecretKey();
+        //        this.generateSecretKey();
         claims.put("phoneNumber", user.getPhoneNumber());
+        claims.put("userId", user.getId());
         try {
             String token = Jwts.builder()
                     .setClaims(claims) //how to extract claims from this ?
@@ -66,7 +67,7 @@ public class JwtTokenUtils {
         return claimsResolver.apply(claims);
     }
     //check expiration
-    private boolean isTokenExpired(String token){
+    public boolean isTokenExpired(String token){
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }

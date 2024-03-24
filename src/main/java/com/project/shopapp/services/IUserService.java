@@ -7,4 +7,5 @@ import com.project.shopapp.models.UserEntity;
 public interface IUserService {
     UserEntity createUser(UserDTO userDTO) throws DataNotFoundException, Exception;
     String login(String phoneNumber, String password, Long userId) throws DataNotFoundException,Exception;
+    UserEntity getUserDetailsFromToken(String token) throws Exception;
 }
