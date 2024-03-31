@@ -1,6 +1,7 @@
 package com.project.shopapp.services;
 
 import com.project.shopapp.components.JwtTokenUtils;
+import com.project.shopapp.dtos.UpdateUserDTO;
 import com.project.shopapp.dtos.UserDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.exceptions.PermissionDenyExeption;
@@ -102,5 +103,46 @@ public class UserService implements IUserService{
         }else {
             throw new Exception("User not found");
         }
+    }
+
+    @Transactional
+    @Override
+    public UserEntity updateUser(Long userId, UpdateUserDTO updatedUserDto) throws Exception{
+        UserEntity existingUser = userRepository.findById(userId)
+                .orElseThrow(()-> new DataNotFoundException("User not found"));
+
+        String newPhoneNumber = updatedUserDto.getPhoneNumber();
+        if(!existingUser.getPhoneNumber().equals(newPhoneNumber)&&
+            userRepository.existsByPhoneNumber(newPhoneNumber)){
+                throw new DataIntegrityViolationException("Phone number already exists");
+        }
+
+        if(updatedUserDto.getFullname()!=null){
+            existingUser.setFullname(updatedUserDto.getFullname());
+        }
+        if(updatedUserDto.getPhoneNumber()!=null){
+            existingUser.setPhoneNumber(newPhoneNumber);
+        }
+        if(updatedUserDto.getAddress()!=null){
+            existingUser.setAddress(updatedUserDto.getAddress());
+        }
+        if(updatedUserDto.getDateOfBirth()!=null){
+            existingUser.setDateOfBirth(updatedUserDto.getDateOfBirth());
+        }
+        if (updatedUserDto.getFacebookAccountId()>0){
+            existingUser.setFacebookAccountId(updatedUserDto.getFacebookAccountId());
+        }
+        if (updatedUserDto.getGoogleAccountId()>0){
+            existingUser.setGoogleAccountId(updatedUserDto.getGoogleAccountId());
+        }
+        if(updatedUserDto.getPassword()!= null && !updatedUserDto.getPassword().isEmpty()){
+            if(!updatedUserDto.getPassword().equals(updatedUserDto.getRetypePassword())){
+                throw new DataNotFoundException("Password and retype password not the same");
+            }
+            String newPassword = updatedUserDto.getPassword();
+            String encodePassword = passwordEncoder.encode(newPassword);
+            existingUser.setPassword(encodePassword);
+        }
+        return userRepository.save(existingUser);
     }
 }

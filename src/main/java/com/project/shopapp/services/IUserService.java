@@ -1,5 +1,6 @@
 package com.project.shopapp.services;
 
+import com.project.shopapp.dtos.UpdateUserDTO;
 import com.project.shopapp.dtos.UserDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.UserEntity;
@@ -8,4 +9,5 @@ public interface IUserService {
     UserEntity createUser(UserDTO userDTO) throws DataNotFoundException, Exception;
     String login(String phoneNumber, String password, Long userId) throws DataNotFoundException,Exception;
     UserEntity getUserDetailsFromToken(String token) throws Exception;
+    public UserEntity updateUser(Long userId, UpdateUserDTO updateUserDto) throws Exception;
 }
