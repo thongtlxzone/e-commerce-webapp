@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { enviroment } from "../../../enviroments/enviroment";
+import { enviroment } from "../enviroments/enviroment";
 // import {LocalStorageService} from 'ngx-webstorage';
 import { ProductService } from "./product.service";
 

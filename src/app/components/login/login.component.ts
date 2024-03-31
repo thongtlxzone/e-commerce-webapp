@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginDTO } from '../../dtos/user/login.dto';
-import { UserService } from '../header/services/user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import {LoginResponses} from '../../responses/user/login.responses'
-import { TokenService } from 'src/app/components/header/services/token.service';
-import { RoleService } from 'src/app/components/header/services/role.service';
+import { TokenService } from 'src/app/services/token.service';
+import { RoleService } from 'src/app/services/role.service';
 import { Role } from 'src/app/models/role';
 import { UserResponse } from 'src/app/responses/user/user.response';
 

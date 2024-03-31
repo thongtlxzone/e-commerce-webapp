@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { enviroment } from 'src/app/enviroments/enviroment';
 import { Product } from 'src/app/models/product';
 import { ProductImage } from 'src/app/models/product.image';
-import { CartService } from 'src/app/components/header/services/cart.service';
-import { ProductService } from 'src/app/components/header/services/product.service';
+import { CartService } from 'src/app/services/cart.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-detail-product',

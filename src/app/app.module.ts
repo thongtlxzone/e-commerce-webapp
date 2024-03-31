@@ -16,6 +16,7 @@ import {
 } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AppComponent } from './components/app/app.component';
+import { UserProfileComponent } from './components/user-profile/user.profile.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +31,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OrderComponent, 
     OrderDetailComponent, 
     LoginComponent, 
-    RegisterComponent, AppComponent
+    RegisterComponent, 
+    AppComponent,
+    UserProfileComponent
   ],
   imports: [
     ReactiveFormsModule,

@@ -4,9 +4,9 @@ import { enviroment } from 'src/app/enviroments/enviroment';
 import { OrderDetail } from 'src/app/models/order.detail';
 import { Product } from 'src/app/models/product';
 import { OrderResponses } from 'src/app/responses/order/order.responses';
-import { CartService } from 'src/app/components/header/services/cart.service';
-import { OrderService } from 'src/app/components/header/services/order.service';
-import { ProductService } from 'src/app/components/header/services/product.service';
+import { CartService } from 'src/app/services/cart.service';
+import { OrderService } from 'src/app/services/order.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-order-detail',

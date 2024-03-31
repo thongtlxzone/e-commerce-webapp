@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { OrderDTO } from 'src/app/dtos/order/order.dto';
 import { enviroment } from 'src/app/enviroments/enviroment';
 import { Product } from 'src/app/models/product';
-import { CartService } from 'src/app/components/header/services/cart.service';
-import { OrderService } from 'src/app/components/header/services/order.service';
-import { ProductService } from 'src/app/components/header/services/product.service';
-import { TokenService } from 'src/app/components/header/services/token.service';
+import { CartService } from 'src/app/services/cart.service';
+import { OrderService } from 'src/app/services/order.service';
+import { ProductService } from 'src/app/services/product.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-order',

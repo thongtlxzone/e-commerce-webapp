@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { enviroment } from "../../../enviroments/enviroment";
-import { Category } from "../../../models/category";
-import { OrderDTO } from "../../../dtos/order/order.dto";
+import { enviroment } from "../enviroments/enviroment";
+import { Category } from "../models/category";
+import { OrderDTO } from "../dtos/order/order.dto";
 
 @Injectable({
     providedIn: 'root'

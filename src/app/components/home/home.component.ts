@@ -4,8 +4,8 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { enviroment } from 'src/app/enviroments/enviroment';
 import { Category } from 'src/app/models/category';
 import { Product } from 'src/app/models/product';
-import { CategoryService } from 'src/app/components/header/services/category.service';
-import { ProductService } from 'src/app/components/header/services/product.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-home',

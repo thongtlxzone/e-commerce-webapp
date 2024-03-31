@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
-import { TokenService } from "src/app/components/header/services/token.service";
+import { TokenService } from "src/app/services/token.service";
 
 @Injectable({
     providedIn: 'root'

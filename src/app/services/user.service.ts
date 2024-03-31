@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { RegisterDTO } from '../../../dtos/user/register.dto';
-import { LoginDTO } from '../../../dtos/user/login.dto';
-import { enviroment } from '../../../enviroments/enviroment';
-import { UserResponse } from '../../../responses/user/user.response';
+import { RegisterDTO } from '../dtos/user/register.dto';
+import { LoginDTO } from '../dtos/user/login.dto';
+import { enviroment } from '../enviroments/enviroment';
+import { UserResponse } from '../responses/user/user.response';
+import { UpdateUserDTO } from '../dtos/user/update.user.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,15 @@ export class UserService {
     } catch (error) {
       console.log('Error removing user data from local storage: ', error);
     }
+  }
+  updateUserDetail(token: string, updateUserDTO: UpdateUserDTO){
+    debugger;
+    let userResponse = this.getUserFromLocalStorage();
+    return this.http.put(`${this.apiUserDetail}/${userResponse?.id}`, updateUserDTO, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    })
   }
 }
